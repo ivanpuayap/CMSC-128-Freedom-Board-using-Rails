@@ -1,0 +1,31 @@
+%center
+	= render 'form'
+
+%center
+	%br
+
+	.container-fluid.rounded{:style => "width:70%;border: 5px solid black"}
+
+		%div{:style => "text-align: right;"}
+			%br/
+			= form_tag(posts_path, method: :get) do
+				= text_field_tag :search, params[:search]
+				= submit_tag 'Search', name: nil
+
+		%h2 Posts
+
+		- @posts.each do |post|
+			- if post.author == ""
+				- post.author = "Anonymous"
+
+
+			%div
+				%p{:style => "float: left"}= post.author
+				%p{:style => "float: right"}= time_ago_in_words(post.created_at).gsub('about','') + ' ago'
+			%div
+				%br/
+				%br/
+				%p{:align => "justify"}= post.content
+			%br/
+			%hr/
+
